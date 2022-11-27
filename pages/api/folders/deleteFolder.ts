@@ -1,5 +1,5 @@
 import Surreal from 'surrealdb.js'
-import { trimmer } from '../../../../helpers/trimmer';
+import { trimmer } from '../../../helpers/trimmer';
 
 const db = new Surreal(process.env.NEXT_PUBLIC_DBURL);
 
