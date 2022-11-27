@@ -1,0 +1,32 @@
+export const german = {
+  yourFolders: "Deine Ordner",
+  addFolders: "Ordner hinzufügen",
+  yourFiles: "Deine Dateien",
+  addFiles: "Dateien hinzufügen",
+  name: "Name",
+  date: "Datum",
+  location: "Ort",
+  add: "Hinzufügen",
+  password: "Passwort",
+  email: "Email",
+  show: "Zeigen",
+  hide: "Verstecken",
+  bar: {
+    home: "Start",
+    login: "Anmelden",
+    logout: "Abmelden",
+    register: "Registrieren",
+    profile: "Profil",
+  },
+  error: {
+    userNameExists: "Dieser Nutzername wird bereits verwendet bitte versuche es erneut",
+    emailExists: "Diese Email wird bereits verwendet bitte versuche es erneut",
+    userNoExist: "Dieser Nutzer existiert nicht",
+    wrongPass: "Dein eingegebenes Passwort ist falsch",
+    tryAgain: "Bitte versuche es noch einmal",
+    unknownError: "Woopsie da gab es wohl ein Problem",
+  },
+  success: {
+    welcome: "Herzlich willkommen",
+  },
+}

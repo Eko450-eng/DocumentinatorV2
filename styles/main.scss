@@ -1,0 +1,71 @@
+@mixin flex($fd: column, $jc: center, $ai: center) {
+  display: flex;
+  flex-direction: $fd;
+  justify-content: $jc;
+  align-items: $ai;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  background-color: black;
+  width: 100vw;
+  height: 100vh;
+}
+
+.App {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.title-wrapper{
+  @include flex(column,flex-start,center);
+  width: 100vw;
+  height: 100vh;
+  padding: 2rem;
+  padding-bottom: 5rem;
+}
+
+.MuiInputBase {
+  &-root {
+    border: 1px solid white;
+    margin: 2rem;
+    width: 70vw;
+  }
+  &-input {
+    color: white;
+  }
+}
+
+.MuiCardContent-root {
+  @include flex(column,center,center);
+}
+
+.inline-div {
+  @include flex(row,center,center);
+}
+
+.item-container {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 1rem auto;
+
+  .MuiCardContent-root{
+    width: 8rem;
+    text-align: center;
+    word-break: break-all;
+  }
+}
+
+.MuiBottomNavigationAction-label {
+  color:white;
+  margin: .2rem auto;
+}
