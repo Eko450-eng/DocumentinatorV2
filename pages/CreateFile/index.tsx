@@ -1,7 +1,6 @@
 import { Button, TextField, Typography } from '@mui/material'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { useUser } from '../../context/user/UserContext'
 import { german } from '../../languages/german'
@@ -9,15 +8,12 @@ import createDocument from '../api/documents/createDocument'
 
 const CreateFile = ({ props, handleClose }: { props: any, handleClose: any }) => {
   const user = useUser()
-  const router = useRouter()
-
-  console.log(props)
 
   const [values, setValues] = useState({
     folderLocation: "Zuhause",
     folder: props,
     name: "",
-    owner: user!.userName,
+    owner: `${user && user.userName}`,
     givenDate: new Date
   })
 

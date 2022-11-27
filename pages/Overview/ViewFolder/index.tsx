@@ -1,4 +1,4 @@
-import { AppBar, Box, Card, CardContent, IconButton, InputBase, Modal, TextField, Typography } from '@mui/material'
+import { Box, Card, CardContent, IconButton, Modal, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { folderStructure } from '../../../interfaces/interfaces'
 import { german } from '../../../languages/german'
@@ -6,9 +6,8 @@ import { useUser } from '../../../context/user/UserContext'
 import { readFolders } from '../../api/folders/readFolders'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFolder, faPlusSquare } from '@fortawesome/free-regular-svg-icons'
-import { CreateFolder } from '../../CreateFolder'
-import { faArrowDown, faArrowUp, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
-import styled from '@emotion/styled'
+import CreateFolder from '../../CreateFolder'
+import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/router'
 
 const style = {
@@ -24,7 +23,7 @@ const style = {
   p: 4,
 };
 
-export const ViewFolder = () => {
+const ViewFolder = () => {
   const user = useUser()
   const router = useRouter()
   const [data, setData] = useState<Array<folderStructure>>()
@@ -99,3 +98,4 @@ export const ViewFolder = () => {
     </div>
   )
 }
+export default ViewFolder

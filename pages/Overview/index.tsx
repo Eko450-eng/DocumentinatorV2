@@ -1,12 +1,11 @@
 import React from 'react'
 import Typography from '@mui/material/Typography'
 import { useUser, useUserUpdater } from '../../context/user/UserContext'
-import { ViewFolder } from './ViewFolder'
 import Login from '../login'
+import ViewFolder from './ViewFolder'
 
-export const OverView = () => {
+const OverView = () => {
   const user = useUser()
-  const userUpdater = useUserUpdater()
 
   return (
     <div className='title-wrapper'>
@@ -16,3 +15,4 @@ export const OverView = () => {
     </div>
   )
 }
+export default OverView

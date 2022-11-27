@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { OverView } from './Overview'
+import OverView from './Overview'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 

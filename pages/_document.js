@@ -8,6 +8,8 @@ class MyDocument extends Document {
           <link rel="manifest" href="/manifest.json" />
           <link rel="apple-touch-icon" href="/documentinatorLogo-192.png"></link>
           <meta name="theme-color" content="#000" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <meta name="HandheldFriendly" content="true" />
 
           <link rel='apple-touch-startup-image' href='/splashScreens/apple_splash_2048.png' sizes='2048x2732' />
           <link rel='apple-touch-startup-image' href='/splashScreens/apple_splash_1668.png' sizes='1668x2224' />
