@@ -24,5 +24,5 @@ Documentinators core is pretty simple:
 
 ### In-dev ToDo
 - [ ] Add Forgot Password and Sign up
-- [ ] Add Deletion 
-- [ ] Add Editing 
+- [ ] Add Deletion of Files 
+- [ ] Add Editing of Folders and files recursively

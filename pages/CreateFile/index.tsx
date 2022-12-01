@@ -6,12 +6,12 @@ import { useUser } from '../../context/user/UserContext'
 import { german } from '../../languages/german'
 import createDocument from '../api/documents/createDocument'
 
-const CreateFile = ({ props, handleClose }: { props: any, handleClose: any }) => {
+const CreateFile = ({ props }: { props: { id: string | string[] | undefined, handleClose: any, fetchFiles: any } }) => {
   const user = useUser()
 
   const [values, setValues] = useState({
     folderLocation: "Zuhause",
-    folder: props,
+    folder: props.id,
     name: "",
     owner: `${user && user.userName}`,
     givenDate: new Date
@@ -20,9 +20,9 @@ const CreateFile = ({ props, handleClose }: { props: any, handleClose: any }) =>
   const createFileFunction = async (e: any) => {
     e.preventDefault()
     if (!user) return
-    (user.userName, values)
     createDocument(user.userName, values)
-    handleClose()
+    props.handleClose()
+    props.fetchFiles()
   }
 
   return (

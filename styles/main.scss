@@ -66,6 +66,38 @@ body, html {
 }
 
 .MuiBottomNavigationAction-label {
+  position: fixed;
+  bottom: 0;
   color:white;
   margin: .2rem auto;
+}
+
+.item-card {
+  position: relative;
+  cursor: pointer;
+  &-menu{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+.MuiListItemIcon-root {
+  min-width: unset;
+}
+
+.btn {
+  cursor: pointer;
+}
+
+.boxStyling {
+  position: absolute; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  border: 2px solid #000;
+  margin: 0 auto;
+  background: #0d47a1;
+  box-shadow: 24;
 }

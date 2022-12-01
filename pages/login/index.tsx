@@ -7,11 +7,7 @@ import { faXmarkCircle } from '@fortawesome/free-regular-svg-icons'
 import { useRouter } from 'next/router'
 import { useUser } from '../../context/user/UserContext'
 import { german } from '../../languages/german'
-
-interface State {
-  password: string;
-  showPassword: boolean;
-}
+import { LoginState } from '../../interfaces/interfaces'
 
 export default function Login() {
   const user = useUser()
@@ -20,13 +16,13 @@ export default function Login() {
 
   const [email, setEmail] = useState<string>("")
   const route = useRouter()
-  const [values, setValues] = useState<State>({
+  const [values, setValues] = useState<LoginState>({
     password: '',
     showPassword: false,
   });
 
   const handleChange =
-    (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    (prop: keyof LoginState) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setValues({ ...values, [prop]: event.target.value });
       console.log()
     };

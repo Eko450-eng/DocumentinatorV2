@@ -22,6 +22,7 @@ const CreateFolder = ({ props }: { props: any }) => {
     if (!user) return
     createFolder(user.userName, values)
     props.handleClose()
+    props.fetchFolders()
   }
 
   return (

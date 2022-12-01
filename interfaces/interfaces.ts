@@ -21,3 +21,9 @@ export interface FileStructure {
   givenDate: Date,
   owner: string
 }
+
+export interface LoginState {
+  password: string;
+  showPassword: boolean;
+}
+

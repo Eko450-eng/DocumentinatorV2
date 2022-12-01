@@ -1,27 +1,17 @@
 import { readFiles } from '../../api/documents/readDocuments'
-import { Box, Card, CardContent, IconButton, Modal, TextField, Typography } from '@mui/material'
+import { IconButton, Modal, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { german } from '../../../languages/german'
 import { useUser } from '../../../context/user/UserContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFolder, faPlusSquare } from '@fortawesome/free-regular-svg-icons'
+import { faPlusSquare } from '@fortawesome/free-regular-svg-icons'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/router'
 import { FileStructure } from '../../../interfaces/interfaces'
 import CreateFile from '../../CreateFile'
-
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: "90%",
-  border: '2px solid #000',
-  margin: "0 auto",
-  background: "#0d47a1",
-  boxShadow: 24,
-  p: 4,
-};
+import { FileCard } from '../../../components/Cards'
+import { deleteDocument } from '../../api/documents/deleteDocument'
+import { Box } from '@mui/system'
 
 const ViewFile = () => {
   const router = useRouter()
@@ -35,8 +25,16 @@ const ViewFile = () => {
 
   const handleClose = () => { setOpen(false) }
   const fetchFiles = async () => {
-    readFiles(user!.userName, id!, searchOptions)
-      .then((res: any) => (res && res.result) && setData(res.result))
+    if (!user) return
+    setTimeout(() => {
+      readFiles(user!.userName, id!, searchOptions)
+        .then((res: any) => (res && res.result) && setData(res.result))
+    }, 250);
+  }
+
+  const deleteFileFunction = (file: string) => {
+    deleteDocument(file)
+    fetchFiles()
   }
 
   useEffect(() => {
@@ -68,28 +66,15 @@ const ViewFile = () => {
         placeholder="Suche"
       />
 
-      <Modal
-        open={handleOpen}
-        onClose={() => setOpen(false)}
-      >
-        <Box sx={style} >
-          <CreateFile props={id} handleClose={() => handleClose()} />
+      <Modal open={handleOpen} onClose={() => setOpen(false)}>
+        <Box className="boxStyling">
+          <CreateFile props={{ id, handleClose, fetchFiles }} />
         </Box>
       </Modal>
 
       <div className="item-container">
-        {data && data.map((data, index) => {
-          return (
-            <Card
-              key={index}
-            >
-              <CardContent>
-                <FontAwesomeIcon icon={faFolder} size={"xl"} color="white" />
-                <Typography variant='body1' >{data.name}</Typography>
-                <Typography variant='body2' >{data.isLocation}</Typography>
-              </CardContent>
-            </Card>
-          )
+        {data && data.map((file, index) => {
+          return (<FileCard key={index} props={{ file, deleteFileFunction }} />)
         })}
       </div>
     </div>
