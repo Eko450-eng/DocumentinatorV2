@@ -74,10 +74,12 @@ const ViewFile = () => {
 
       <div className="item-container">
         {data && data.map((file, index) => {
-          return (<FileCard key={index} props={{ file, deleteFileFunction }} />)
+          return (
+            <FileCard key={index} props={{ file, deleteFileFunction }} />
+          )
         })}
       </div>
-    </div>
+    </div >
   )
 }
 export default ViewFile

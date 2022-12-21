@@ -6,6 +6,7 @@ import React, { useState } from 'react'
 import Popover from '@mui/material/Popover';
 import { List, ListItemText } from '@mui/material';
 import { FileStructure, folderStructure } from '../interfaces/interfaces'
+import { useRouter } from 'next/router'
 
 export function DocumentOptions({ props }: { props: { folder: folderStructure | undefined, deleteFolderFunction: any } }) {
   return (
@@ -27,13 +28,16 @@ export function DocumentOptions({ props }: { props: { folder: folderStructure | 
 }
 
 export function FileOptions({ props }: { props: { file: FileStructure | undefined, deleteFileFunction: any } }) {
+  const router = useRouter()
+
   return (
     <List sx={{ pt: 0 }}>
       <ListItem className="btn">
         <ListItemIcon>
           <FontAwesomeIcon icon={faPen} color="white" /> :
         </ListItemIcon>
-        <ListItemText primary=" Edit" />
+        <ListItemText primary=" Edit" onClick={() => router.push(`/UpdateFolder/${props.file!.name}`)} />
+        {/* <ListItemText primary=" Edit" onClick={() => setEditing(true)} /> */}
       </ListItem>
       <ListItem className="btn" onClick={() => props.deleteFileFunction(props.file!.name)}>
         <ListItemIcon>
