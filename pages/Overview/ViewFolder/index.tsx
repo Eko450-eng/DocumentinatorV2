@@ -35,7 +35,7 @@ const ViewFolder = () => {
 
   useEffect(() => {
     fetchFolders()
-  }, [searchOptions, sortOrder, user, fetchFolders])
+  }, [searchOptions, sortOrder, user ])
 
   return (
     <div className='title-wrapper'>

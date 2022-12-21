@@ -40,7 +40,7 @@ const ViewFile = () => {
   useEffect(() => {
     if (!user) return
     fetchFiles()
-  }, [id, user, sortOrder, searchOptions, setOpen, fetchFiles])
+  }, [id, user, sortOrder, searchOptions, setOpen ])
 
   return (
     <div className='title-wrapper'>

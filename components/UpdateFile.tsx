@@ -2,9 +2,9 @@ import { Button, TextField, Typography } from '@mui/material'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import React, { useState } from 'react'
-import { useUser } from '../../context/user/UserContext'
-import { german } from '../../languages/german'
-import updateDocument from '../api/documents/updateDocument'
+import { useUser } from '../context/user/UserContext'
+import { german } from '../languages/german'
+import updateDocument from '../pages/api/documents/updateDocument'
 
 const UpdateFile = ({ props }: { props: { folderName: string | string[] | undefined, fileName: string } }) => {
   const user = useUser()

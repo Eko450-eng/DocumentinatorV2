@@ -7,8 +7,7 @@ import Popover from '@mui/material/Popover';
 import { List, ListItemText } from '@mui/material';
 import { FileStructure, folderStructure } from '../interfaces/interfaces'
 import { useRouter } from 'next/router'
-import CreateFolder from '../pages/CreateFolder'
-import UpdateFile from '../pages/UpdateFolder/UpdateFile'
+import UpdateFile from './UpdateFile'
 
 export function DocumentOptions({ props }: { props: { folder: folderStructure | undefined, deleteFolderFunction: any } }) {
   return (
@@ -57,7 +56,7 @@ export function FileOptions({ props }: { props: { file: FileStructure | undefine
         onClose={() => setOpen(false)}
       >
         <Box className="boxStyling">
-          {props.file && <UpdateFile props={{ folderName: id, fileName: props.file.name }} />}
+          {(props.file && id) && <UpdateFile props={{ folderName: id, fileName: props.file.name }} />}
         </Box>
       </Modal>
     </>
