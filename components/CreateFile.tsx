@@ -1,17 +1,14 @@
 import { Button, TextField, Typography } from '@mui/material'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { useUser } from '../../context/user/UserContext'
-import { german } from '../../languages/german'
-import updateDocument from '../api/documents/updateDocument'
+import { useUser } from '../context/user/UserContext'
+import { german } from '../languages/german'
+import createDocument from '../pages/api/documents/createDocument'
 
-const UpdateFile = () => {
+const CreateFile = ({ props }: { props: { id?: string | string[] | undefined, handleClose: any, fetchFiles: any } }) => {
   const user = useUser()
-  const router = useRouter()
-  const { id } = router.query
-
+  const id = props.id ? props.id : "ERROR"
 
   const [values, setValues] = useState({
     folderLocation: "Zuhause",
@@ -21,14 +18,16 @@ const UpdateFile = () => {
     givenDate: new Date
   })
 
-  const UpdateFileFunction = async (e: any) => {
+  const createFileFunction = async (e: any) => {
     e.preventDefault()
     if (!user) return
-    updateDocument(user.userName, values)
+    createDocument(user.userName, values)
+    props.handleClose()
+    props.fetchFiles()
   }
 
   return (
-    <form onSubmit={UpdateFileFunction}>
+    <form onSubmit={createFileFunction}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Typography variant='h2' >{german.addFiles}</Typography>
         <Typography fontSize={20} variant='h2' > Ordner hinzufügen </Typography>
@@ -55,4 +54,4 @@ const UpdateFile = () => {
     </form>
   )
 }
-export default UpdateFile
+export default CreateFile

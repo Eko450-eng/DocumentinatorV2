@@ -4,29 +4,27 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import React, { useState } from 'react'
 import { useUser } from '../../context/user/UserContext'
 import { german } from '../../languages/german'
-import createDocument from '../api/documents/createDocument'
+import updateDocument from '../api/documents/updateDocument'
 
-const CreateFile = ({ props }: { props: { id: string | string[] | undefined, handleClose: any, fetchFiles: any } }) => {
+const UpdateFile = ({ props }: { props: { folderName: string | string[] | undefined, fileName: string } }) => {
   const user = useUser()
 
   const [values, setValues] = useState({
     folderLocation: "Zuhause",
-    folder: props.id,
-    name: "",
+    folder: props.folderName,
+    name: props.fileName,
     owner: `${user && user.userName}`,
     givenDate: new Date
   })
 
-  const createFileFunction = async (e: any) => {
+  const UpdateFileFunction = async (e: any) => {
     e.preventDefault()
     if (!user) return
-    createDocument(user.userName, values)
-    props.handleClose()
-    props.fetchFiles()
+    updateDocument(values, props.folderName, props.fileName, user.userName)
   }
 
   return (
-    <form onSubmit={createFileFunction}>
+    <form onSubmit={UpdateFileFunction}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Typography variant='h2' >{german.addFiles}</Typography>
         <Typography fontSize={20} variant='h2' > Ordner hinzufügen </Typography>
@@ -53,4 +51,4 @@ const CreateFile = ({ props }: { props: { id: string | string[] | undefined, han
     </form>
   )
 }
-export default CreateFile
+export default UpdateFile

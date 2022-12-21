@@ -1,4 +1,5 @@
 import Surreal from 'surrealdb.js'
+import { trimmer } from '../../../helpers/trimmer';
 
 export const db = new Surreal(process.env.NEXT_PUBLIC_DBURL);
 
@@ -25,7 +26,7 @@ export const readFiles = async (userName: string, id: string | string[], searchO
       }
     }
 
-    const files = await db.query(`select * from documents where folders="${id}" and owner="${userName}"
+    const files = await db.query(`select * from files where folders="${trimmer(id as string)}" and owner="${userName}"
 			${searchOptions != "" ?
         `and name~"${searchOptions}" order by ${sortValue()} ${sortOrder ? "desc" : "asc"}` :
         `order by name ${sortOrder ? "desc" : "asc"}`}

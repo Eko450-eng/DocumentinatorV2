@@ -1,12 +1,14 @@
 import { faEllipsisV, faPen, faX } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ActionIcon } from '@mantine/core'
-import { ListItem, ListItemIcon } from '@mui/material'
+import { ListItem, ListItemIcon, Modal, Box } from '@mui/material'
 import React, { useState } from 'react'
 import Popover from '@mui/material/Popover';
 import { List, ListItemText } from '@mui/material';
 import { FileStructure, folderStructure } from '../interfaces/interfaces'
 import { useRouter } from 'next/router'
+import CreateFolder from '../pages/CreateFolder'
+import UpdateFile from '../pages/UpdateFolder/UpdateFile'
 
 export function DocumentOptions({ props }: { props: { folder: folderStructure | undefined, deleteFolderFunction: any } }) {
   return (
@@ -29,23 +31,36 @@ export function DocumentOptions({ props }: { props: { folder: folderStructure | 
 
 export function FileOptions({ props }: { props: { file: FileStructure | undefined, deleteFileFunction: any } }) {
   const router = useRouter()
+  const { id } = router.query
+  const [handleOpen, setOpen] = useState<boolean>(false)
 
   return (
-    <List sx={{ pt: 0 }}>
-      <ListItem className="btn">
-        <ListItemIcon>
-          <FontAwesomeIcon icon={faPen} color="white" /> :
-        </ListItemIcon>
-        <ListItemText primary=" Edit" onClick={() => router.push(`/UpdateFolder/${props.file!.name}`)} />
-        {/* <ListItemText primary=" Edit" onClick={() => setEditing(true)} /> */}
-      </ListItem>
-      <ListItem className="btn" onClick={() => props.deleteFileFunction(props.file!.name)}>
-        <ListItemIcon>
-          <FontAwesomeIcon icon={faX} color="white" /> :
-        </ListItemIcon>
-        <ListItemText primary="Delete" />
-      </ListItem>
-    </List>
+    <>
+      <List sx={{ pt: 0 }}>
+        <ListItem className="btn">
+          <ListItemIcon>
+            <FontAwesomeIcon icon={faPen} color="white" /> :
+          </ListItemIcon>
+          <ListItemText primary=" Edit" onClick={() => setOpen(true)} />
+          {/* <ListItemText primary=" Edit" onClick={() => setEditing(true)} /> */}
+        </ListItem>
+        <ListItem className="btn" onClick={() => props.deleteFileFunction(props.file!.name)}>
+          <ListItemIcon>
+            <FontAwesomeIcon icon={faX} color="white" /> :
+          </ListItemIcon>
+          <ListItemText primary="Delete" />
+        </ListItem>
+      </List>
+
+      <Modal
+        open={handleOpen}
+        onClose={() => setOpen(false)}
+      >
+        <Box className="boxStyling">
+          {props.file && <UpdateFile props={{ folderName: id, fileName: props.file.name }} />}
+        </Box>
+      </Modal>
+    </>
   )
 }
 

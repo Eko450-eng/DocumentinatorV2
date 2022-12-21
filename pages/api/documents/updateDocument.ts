@@ -9,7 +9,17 @@ export interface IApiUser {
   [key: string]: any
 }
 
-const updateDocument = async (userName: string, body: any) => {
+export interface SurrealFileStructure {
+  folder: string,
+  givenDate: any,
+  date: any,
+  isLocation: string,
+  id: string,
+  name: string,
+  owner: string
+}
+
+const updateDocument = async (body: any, folderName: string | string[] | undefined, fileName: string | string[] | undefined, userName: string) => {
   try {
     await db.signin({
       user: process.env.NEXT_PUBLIC_DBUSER!,
@@ -18,25 +28,22 @@ const updateDocument = async (userName: string, body: any) => {
 
     await db.use(process.env.NEXT_PUBLIC_NS!, process.env.NEXT_PUBLIC_DB!)
 
-    const files = await db.query(`select * from documents where folders="${body.folder}" and name="${body.name}"`)
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    const file = files[0].result[0]
+    console.log(body.folder)
+    console.log(folderName)
+    const files = await db.query(`select * from files where folders="${folderName}" and name="${fileName}"`)
+    const fileUnknown = files[0].result
+    const file = fileUnknown as Array<SurrealFileStructure>
 
     const data = {
-      name: body.name ? body.name : file.name,
-      folders: body.folder ? trimmer(body.folder) : file.folder,
-      date: body.date ? body.date : file.date,
-      isLocation: body.isLocation ? body.isLocation : file.isLocation,
-      givenDate: body.givenDate ? body.givenDate : file.givenDate,
+      name: body.name ? body.name : file[0].name,
+      folders: body.folder ? trimmer(body.folder) : file[0].folder,
+      date: body.date ? body.date : file[0].date,
+      isLocation: body.isLocation ? body.isLocation : file[0].isLocation,
+      givenDate: body.givenDate ? body.givenDate : file[0].givenDate,
       owner: userName
     }
 
-    await db.create(`documents:${trimmer(body.name)}`, data)
-    await db.query(`UPDATE documents:${trimmer(body.name)} SET folder = ${trimmer(body.folder)}`)
-    await db.query(`UPDATE ${trimmer(body.folder)} SET categories += ["${body.categorie}"]`)
-
+    await db.change(`files:${fileName}`, data)
   } catch (e) { throw (e) }
 }
 export default updateDocument

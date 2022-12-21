@@ -28,9 +28,9 @@ const createDocument = async (userName: string, body: any) => {
       owner: userName
     }
 
-    await db.create(`documents:${trimmer(body.name)}`, data)
-    await db.query(`UPDATE documents:${trimmer(body.name)} SET folder = ${trimmer(body.folder)}`)
-    await db.query(`UPDATE ${trimmer(body.folder)} SET categories += ["${body.categorie}"]`)
+    await db.create(`files:${trimmer(body.name)}`, data)
+    await db.query(`UPDATE files:${trimmer(body.name)} SET folder = ${trimmer(body.folder)}`)
+    await db.query(`UPDATE files:${trimmer(body.folder)} SET categories += ["${body.categorie}"]`)
 
   } catch (e) { throw (e) }
 }

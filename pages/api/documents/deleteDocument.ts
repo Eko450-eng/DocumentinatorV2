@@ -13,7 +13,7 @@ export const deleteDocument = async (documentName: string) => {
 
     await db.use(process.env.NEXT_PUBLIC_NS!, process.env.NEXT_PUBLIC_DB!)
 
-    await db.delete(`documents:${trimmer(documentName)}`)
+    await db.delete(`files:${trimmer(documentName)}`)
 
   } catch (e) { console.log(e) }
 }

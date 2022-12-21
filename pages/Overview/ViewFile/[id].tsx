@@ -8,10 +8,10 @@ import { faPlusSquare } from '@fortawesome/free-regular-svg-icons'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/router'
 import { FileStructure } from '../../../interfaces/interfaces'
-import CreateFile from '../../CreateFile'
 import { FileCard } from '../../../components/Cards'
 import { deleteDocument } from '../../api/documents/deleteDocument'
 import { Box } from '@mui/system'
+import CreateFile from '../../../components/CreateFile'
 
 const ViewFile = () => {
   const router = useRouter()
@@ -40,7 +40,7 @@ const ViewFile = () => {
   useEffect(() => {
     if (!user) return
     fetchFiles()
-  }, [id, user, sortOrder, searchOptions, setOpen])
+  }, [id, user, sortOrder, searchOptions, setOpen, fetchFiles])
 
   return (
     <div className='title-wrapper'>
@@ -68,7 +68,9 @@ const ViewFile = () => {
 
       <Modal open={handleOpen} onClose={() => setOpen(false)}>
         <Box className="boxStyling">
-          <CreateFile props={{ id, handleClose, fetchFiles }} />
+          {id ? <CreateFile props={{ id, handleClose, fetchFiles }} /> :
+            <></>
+          }
         </Box>
       </Modal>
 
