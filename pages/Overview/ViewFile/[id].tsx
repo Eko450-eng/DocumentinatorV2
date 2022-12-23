@@ -27,7 +27,7 @@ const ViewFile = () => {
   const fetchFiles = async () => {
     if (!user) return
     setTimeout(() => {
-      readFiles(user!.userName, id!, searchOptions)
+      readFiles(id!, searchOptions)
         .then((res: any) => (res && res.result) && setData(res.result))
     }, 250);
   }
@@ -40,7 +40,7 @@ const ViewFile = () => {
   useEffect(() => {
     if (!user) return
     fetchFiles()
-  }, [id, user, sortOrder, searchOptions, setOpen ])
+  }, [id, user, sortOrder, searchOptions, setOpen])
 
   return (
     <div className='title-wrapper'>

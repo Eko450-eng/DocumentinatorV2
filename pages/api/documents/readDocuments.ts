@@ -1,17 +1,16 @@
+import Cookies from 'js-cookie';
 import Surreal from 'surrealdb.js'
 import { trimmer } from '../../../helpers/trimmer';
 
 export const db = new Surreal(process.env.NEXT_PUBLIC_DBURL);
 
-export const readFiles = async (userName: string, id: string | string[], searchOptions?: string, sortOptions?: string, sortOrder?: boolean) => {
+export const readFiles = async (id: string | string[], searchOptions?: string, sortOptions?: string, sortOrder?: boolean) => {
 
   try {
-    await db.signin({
-      user: process.env.NEXT_PUBLIC_DBUSER!,
-      pass: process.env.NEXT_PUBLIC_DBPASS!,
-    })
-
     await db.use(process.env.NEXT_PUBLIC_NS!, process.env.NEXT_PUBLIC_DB!)
+    const token = Cookies.get("jwtToken")
+    if (!token) return
+    db.authenticate(token)
 
     const sortValue = () => {
       switch (sortOptions) {
@@ -26,7 +25,9 @@ export const readFiles = async (userName: string, id: string | string[], searchO
       }
     }
 
-    const files = await db.query(`select * from files where folders="${trimmer(id as string)}" and owner="${userName}"
+    console.log(id)
+
+    const files = await db.query(`select * from files where folder="${trimmer(id as string)}" and owner=$auth.id
 			${searchOptions != "" ?
         `and name~"${searchOptions}" order by ${sortValue()} ${sortOrder ? "desc" : "asc"}` :
         `order by name ${sortOrder ? "desc" : "asc"}`}

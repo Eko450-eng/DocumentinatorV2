@@ -10,8 +10,8 @@ const OverView = () => {
   return (
     <div className='title-wrapper'>
       <Typography fontSize={20} variant='h1'>Documentinator</Typography>
-      {(user && user.authenticated) && <ViewFolder />}
-      {(!user || !user.authenticated) && <Login />}
+      {(user) && <ViewFolder />}
+      {(!user) && <Login />}
     </div>
   )
 }

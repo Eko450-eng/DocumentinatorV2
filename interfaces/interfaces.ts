@@ -27,3 +27,13 @@ export interface LoginState {
   showPassword: boolean;
 }
 
+export interface SurrealFileStructure {
+  folder: string,
+  givenDate: any,
+  date: any,
+  isLocation: string,
+  id: string,
+  name: string,
+  owner: string
+}
+

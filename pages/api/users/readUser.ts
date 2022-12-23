@@ -1,54 +1,53 @@
 import Surreal from 'surrealdb.js'
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
 import Cookies from 'js-cookie';
-import { german } from '../../../languages/german';
 
 const db = new Surreal(process.env.NEXT_PUBLIC_DBURL);
 
-export const readUser = async (name: string, password: string) => {
+export const readUser = async (user: string, password: string) => {
 
-  const loginMethod = (name: string) => {
-    if (/@/.test(name)) return "email"
+  const loginMethod = (user: string) => {
+    if (/@/.test(user)) return "email"
     return "name"
   }
 
   try {
-    await db.signin({
-      user: process.env.NEXT_PUBLIC_DBUSER!,
-      pass: process.env.NEXT_PUBLIC_DBPASS!,
+    const method = loginMethod(user)
+
+    const token = await db.signin({
+      NS: "documentinatordb",
+      DB: "documentinatordb",
+      SC: "allusers",
+      user: user,
+      pass: password
     })
 
-    await db.use(process.env.NEXT_PUBLIC_NS!, process.env.NEXT_PUBLIC_DB!)
+    // let comparedPass: any
+    // try {
+    //   comparedPass = await bcrypt.compare(password, hashedPass[0].result[0].pass)
+    // } catch (e) {
+    //   throw { error: true, message: `${german.error.userNoExist}` }
+    // }
 
-    const method = loginMethod(name)
+    // if (!comparedPass) throw { error: true, message: `${german.error.wrongPass}` }
 
-    const hashedPass: any = await db.query(`select pass from users where ${method}="${name}"`)
-    const userName: any = await db.query(`select name from users where ${method}="${name}"`)
+    // const res = { userName: userName[0].result[0].name, authenticated: comparedPass }
 
-    let comparedPass: any
-
-    try {
-      comparedPass = await bcrypt.compare(password, hashedPass[0].result[0].pass)
-    } catch (e) {
-      throw { error: true, message: `${german.error.userNoExist}` }
-    }
-
-    if (!comparedPass) throw { error: true, message: `${german.error.wrongPass}` }
-
-    const res = { userName: userName[0].result[0].name, authenticated: comparedPass }
-
-    const token = jwt.sign(res!, process.env.NEXT_PUBLIC_LOGINTOKEN!)
-    if (!comparedPass) throw { error: true, message: `${german.error.tryAgain}` }
+    // const token = jwt.sign(res!, process.env.NEXT_PUBLIC_LOGINTOKEN!)
+    // if (!comparedPass) throw { error: true, message: `${german.error.tryAgain}` }
 
 
-    if (comparedPass) {
-      Cookies.set("loginT", token, { httpOnly: false })
-      throw { name: name, authenticated: comparedPass }
-    }
+    // if (comparedPass) {
+    //   const cookie = Cookies.get("loginT")
+
+    //   throw { name: name, authenticated: comparedPass }
+    // }
+    //
+
+    Cookies.set("jwtToken", token, { httpOnly: false })
+    Cookies.set("loginT", user, { httpOnly: false })
+    throw { name: user, authenticated: token }
 
   } catch (e) {
     throw (e)
   }
 }
-

@@ -39,6 +39,7 @@
     "eslint-config-next": "13.0.4",
     "js-cookie": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
     "material-ui-popup-state": "^4.1.0",
     "moment": "^2.29.4",
     "next": "13.0.4",

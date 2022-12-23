@@ -31,6 +31,7 @@ specifiers:
   eslint-config-next: 13.0.4
   js-cookie: ^3.0.1
   jsonwebtoken: ^8.5.1
+  jwt-decode: ^3.1.2
   material-ui-popup-state: ^4.1.0
   moment: ^2.29.4
   next: 13.0.4
@@ -75,6 +76,7 @@ dependencies:
   eslint-config-next: 13.0.4_hsf322ms6xhhd4b5ne6lb74y4a
   js-cookie: 3.0.1
   jsonwebtoken: 8.5.1
+  jwt-decode: 3.1.2
   material-ui-popup-state: 4.1.0_thp4wrxo45nyllusrnt46mid4u
   moment: 2.29.4
   next: 13.0.4_vgii64pd2ccbnbx2v3ro5gbin4
@@ -4314,6 +4316,10 @@ packages:
     dependencies:
       jwa: 1.4.1
       safe-buffer: 5.1.2
+    dev: false
+
+  /jwt-decode/3.1.2:
+    resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
     dev: false
 
   /language-subtag-registry/0.3.22:

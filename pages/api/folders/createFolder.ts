@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import Surreal from 'surrealdb.js'
 import { trimmer } from '../../../helpers/trimmer';
 import { folderStructure } from '../../../interfaces/interfaces';
@@ -7,16 +8,15 @@ const db = new Surreal(process.env.NEXT_PUBLIC_DBURL);
 export const createFolder = async (userName: string, body: folderStructure) => {
 
   try {
-    await db.signin({
-      user: process.env.NEXT_PUBLIC_DBUSER!,
-      pass: process.env.NEXT_PUBLIC_DBPASS!,
-    })
-
     await db.use(process.env.NEXT_PUBLIC_NS!, process.env.NEXT_PUBLIC_DB!)
+    const token = Cookies.get("jwtToken")
+    if (!token) return
+    db.authenticate(token)
+
 
     const data = {
       name: body.name,
-      folderLocation: body.folderLocation,
+      isLocation: body.folderLocation,
       givenDate: body.givenDate,
       owner: userName,
     }

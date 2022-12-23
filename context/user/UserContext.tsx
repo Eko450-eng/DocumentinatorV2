@@ -1,6 +1,5 @@
 import Cookies from 'js-cookie';
 import { createContext, useContext, useEffect, useState } from 'react'
-import jwt from 'jsonwebtoken'
 import { useRouter } from 'next/router';
 
 export interface UserValidation {
@@ -28,16 +27,21 @@ export const useUserLoggerOffer = () => {
 export const UserProvider = ({ children }: any) => {
   const router = useRouter()
   const [user, setUser] = useState<UserValidation | null>(null as any)
-  const token = Cookies.get("loginT")
-  const LOGINTOKEN = process.env.NEXT_PUBLIC_LOGINTOKEN
+  const token = Cookies.get("jwtToken")
+  const userName = Cookies.get("loginT")
 
   const log = async () => {
-    if (!token) return
-    const validation: UserValidation | any = jwt.verify(token, LOGINTOKEN ? LOGINTOKEN : "")
-    return await validation
+    if (!token || !userName) return
+    const validation: UserValidation = {
+      authenticated: true,
+      userName: userName
+    }
+
+    return validation
   }
 
   const signOut = () => {
+    Cookies.remove("jwtToken")
     Cookies.remove("loginT")
     router.push('/')
     setUser(null)

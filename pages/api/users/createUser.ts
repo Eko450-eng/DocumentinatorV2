@@ -1,8 +1,8 @@
 import Surreal from 'surrealdb.js'
-import bcrypt from 'bcryptjs'
 import { IUser } from '../../../interfaces/interfaces';
-import { trimmer } from '../../../helpers/trimmer';
 import { german } from '../../../languages/german';
+import Cookies from 'js-cookie';
+import jwt from 'jsonwebtoken';
 
 const db = new Surreal(process.env.NEXT_PUBLIC_DBURL);
 
@@ -10,28 +10,25 @@ const db = new Surreal(process.env.NEXT_PUBLIC_DBURL);
 export const createUser = async (user: IUser) => {
 
   try {
-    await db.signin({
-      user: process.env.NEXT_PUBLIC_DBUSER!,
-      pass: process.env.NEXT_PUBLIC_DBPASS!,
+
+    const token = await db.signup({
+      NS: process.env.NEXT_PUBLIC_NS,
+      DB: process.env.NEXT_PUBLIC_DB,
+      SC: "allusers",
+      email: user.email,
+      user: user.name,
+      pass: user.password
     })
 
-    await db.use(process.env.NEXT_PUBLIC_NS!, process.env.NEXT_PUBLIC_DB!)
+    const userNameExists: any = await db.query(`select * from user where user="${user.name}"`)
+    if (userNameExists) throw { type: "Error", message: `${german.error.userNameExists}` }
+    const emailExists: any = await db.query(`select * from user where email="${user.email}"`)
+    if (emailExists) throw { type: "Error", message: `${german.error.emailExists}` }
 
-    const password = await bcrypt.hash(user.password, 10)
+    const tokenNew = jwt.sign(token, process.env.NEXT_PUBLIC_LOGINTOKEN!)
 
-    const userNameExists: any = await db.query(`select * from users where name="${user.name}"`)
-    const emailExists: any = await db.query(`select * from users where email="${user.email}"`)
+    Cookies.set("loginT", tokenNew, { httpOnly: false })
 
-    const data = {
-      name: trimmer(user.name),
-      email: user.email,
-      pass: password,
-    }
-
-    if (userNameExists[0].result!.length >= 1) throw { type: "Error", message: `${german.error.userNameExists}` }
-    if (emailExists[0].result!.length >= 1) throw { type: "Error", message: `${german.error.emailExists}` }
-
-    await db.create(`users:${trimmer(user.name)}`, data)
     throw { type: "Success", message: `${german.success.welcome}` }
   } catch (e) { throw (e) }
 }
